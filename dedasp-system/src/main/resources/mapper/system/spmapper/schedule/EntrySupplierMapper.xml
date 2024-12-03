@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.schedule.EntrySupplierMapper">
+
+    <update id="secheduleSupplier">
+        insert into StockroomSupplier(GongYIngShangBIanMa,GongYingShangMingCheng,GongYingShangJianJie,PinPaiLeiBie,GongYingShangZhaoPian,ZhangHao,GongYingShangLeiBie,
+        GongYingShangFenLei,GongYingShangDengJi,GongYingShangLeiXing,FaRenName,Tel,ShenFenZhengHao,LianXiRen,Gander,HeZuoRiQi,GYTEL,Email,Address,KaiPiaoXinXi,
+        KaipPiaoGongSiMingCheng,NaSuiRenShiBieHao,KaiHuYinHang,GYZhangHao,KaiHuDiZhi,BeiZhu,Annex,UserID,FuJianShuoMing,ShiGongYeJi,ZhuCeZiJin,QiYeZiZhi,ZCSID,ZBXID,
+        UserGuid,AddDate,UpdateUserGuid,UpdateDate)
+        SELECT GY_GongYIngShangBIanMa,GY_GongYingShangMingCheng,GY_GongYingShangJianJie,GY_PinPaiLeiBie,GY_GongYingShangZhaoPian,GY_ZhangHao,GY_GongYingShangLeiBie,
+        GY_GongYingShangFenLei,GY_GongYingShangDengJi,GongYingShangLeiXing,FaRenName,Tel,ShenFenZhengHao,GY_LianXiRen,GY_Gander,GY_HeZuoRiQi,GY_TEL,GY_Email,GY_Address,
+        GY_KaiPiaoXinXi,GY_KaipPiaoGongSiMingCheng,GY_NaSuiRenShiBieHao,GY_KaiHuYinHang,GY_ZhangHao,GY_KaiHuDiZhi,GY_BeiZhu,GY_Annex,S_UserID,FuJianShuoMing,ShiGongYeJi,
+        ZhuCeZiJin,QiYeZiZhi,ZCS_ID,ZBX_ID,'00000000-0000-0000-0000-000000000000',GETDATE(),'00000000-0000-0000-0000-000000000000',GETDATE()
+        FROM Suplier.dbo.GY_GongYingShangKu gysk
+        WHERE NOT EXISTS (
+        SELECT 1
+        FROM StockroomSupplier ss
+        WHERE ss.GongYIngShangBIanMa = gysk.GY_GongYIngShangBIanMa
+        ) and Suplier.dbo.fn_GetGongYingShangYiTongGuoZhuangTai(GYK_ID)='已入库'
+    </update>
+</mapper>

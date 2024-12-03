@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.NextProjectMapper">
+    <resultMap id="synMap" type="fileDTO">
+        <id column="S_AttchID" property="id"/>
+        <result column="S_AttchPath" property="path"/>
+    </resultMap>
+
+    <update id="updateQGBAnnex">
+        update 分包结算主表 set 盖章结算书 = #{盖章结算书} where WorkFlowGUID = #{workFlowGUID}
+    </update>
+
+    <update id="updateInvoiceAnnex">
+        update 分包结算主表 set 发票扫描件 = #{发票扫描件} where WorkFlowGUID = #{workFlowGUID}
+    </update>
+
+    <update id="synInvoiceInfo">
+        update 分包结算主表 set 业务内容 = pcb.YeWuNeiRong,票据张数 = pcb.PiaoJuZhangShu,发票号码 = pcb.FaPiaoHaoMa,发票金额 = pcb.FaPiaoJinE,
+        发票税额 = pcb.FaPiaoShuiE,合计金额 = pcb.HeJiJinE,发票备注 = pcb.BeiZhu
+        from 分包结算主表 js
+        join Suplier.dbo.project_contract_billing pcb
+        on pcb.WorkFlowGUID = js.WorkFlowGUID
+        where js.WorkFlowGUID = #{workFlowGUID}
+    </update>
+    <update id="updateFlowStep" parameterType="map">
+        <choose>
+            <when test="type == 1">
+                UPDATE Suplier.dbo.project_contract_billing
+                SET 流程进度 = #{flowStep}
+                WHERE workFlowGUID = #{workFlowGUID}
+            </when>
+            <when test="type == 2">
+                UPDATE Suplier.dbo.CaiLiaoHeTongJieSuan
+                SET 流程进度 = #{flowStep}
+                WHERE workFlowGUID = #{workFlowGUID}
+            </when>
+        </choose>
+    </update>
+
+
+    <select id="getHSLSrcPath" resultMap="synMap">
+        select sa.S_AttchPath,sa.S_AttchID
+        from Suplier.dbo.project_contract_billing pcb
+        right join Suplier.dbo.S_Attechment sa
+        on pcb.PCB_ID = sa.S_AttchOwner
+        where pcb.WorkFlowGUID = #{workFlowGUID} and sa.S_AttchNodeID = 'bill_notice'
+    </select>
+
+
+
+
+    <select id="getInvoiceScan" resultMap="synMap">
+        select sa.S_AttchPath,sa.S_AttchID
+        from Suplier.dbo.project_contract_billing pcb
+        right join Suplier.dbo.S_Attechment sa
+        on pcb.PCB_ID = sa.S_AttchOwner
+        where pcb.WorkFlowGUID = #{workFlowGUID} and sa.S_AttchNodeID = 'InvoiceInfo'
+    </select>
+
+    <select id="getSettleAccounts" resultMap="synMap">
+        select sa.S_AttchPath,sa.S_AttchID
+        from Suplier.dbo.project_contract_billing pcb
+        right join Suplier.dbo.S_Attechment sa
+        on pcb.PCB_ID = sa.S_AttchOwner
+        where pcb.WorkFlowGUID = #{workFlowGUID} and sa.S_AttchNodeID = 'GZJieSuanDan'
+    </select>
+
+
+    <select id="getPathFix" resultMap="synMap">
+        select sa.S_AttchPath,sa.S_AttchID
+        from Suplier.dbo.project_contract_billing pcb
+        right join Suplier.dbo.S_Attechment sa
+        on pcb.PCB_ID = sa.S_AttchOwner
+        where pcb.WorkFlowGUID = #{workFlowGUID} and sa.S_AttchNodeID = #{attchNodeID}
+        and CONVERT(DATE, sa.S_AttchCreatedTime) = CONVERT(DATE, GETDATE())
+    </select>
+
+
+
+</mapper>

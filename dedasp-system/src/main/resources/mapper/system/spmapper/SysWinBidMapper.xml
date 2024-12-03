@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysWinBidMapper">
+    <resultMap id="sysWinBidMap" type="sysWinBid">
+        <id column="ZBS_ID" property="ZBSID"/>
+        <result column="ZhaoBiaoName" property="zhaoBiaoName"/>
+        <result column="BiaoTi" property="biaoTi"/>
+        <result column="ZhaoBiaoCode" property="zhaoBiaoCode"/>
+        <result column="XiangMuName" property="xiangMuName"/>
+        <result column="XianMuBianHao" property="xianMuBianHao"/>
+        <result column="ZhongBiaoDanWei" property="zhongBiaoDanWei"/>
+        <result column="KaiBiaoDate" property="kaiBiaoDate"/>
+        <result column="ZhongBiaoJia" property="zhongBiaoJia"/>
+        <result column="ZG_ID" property="ZGID"/>
+        <result column="GongShiPingTai" property="gongShiPingTai"/>
+        <result column="CaiGouGongGaoFaBuRiqi" property="caiGouGongGaoFaBuRiqi"/>
+        <result column="PingShenRiQi" property="pingShenRiQi"/>
+        <result column="GongShiKaiShiDate" property="gongShiKaiShiDate"/>
+        <result column="GongShiJieShuDate" property="gongShiJieShuDate"/>
+        <result column="LianXiBuMen" property="lianXiBuMen"/>
+        <result column="LianXiDianHua" property="lianXiDianHua"/>
+        <result column="TCYY" property="TCYY"/>
+        <result column="DanWeiMingCheng" property="danWeiMingCheng"/>
+        <result column="CGDiZhi" property="CGDiZhi"/>
+        <result column="CGLianXiRen" property="CGLianXiRen"/>
+        <result column="CGDianHua" property="CGDianHua"/>
+        <result column="DLDanWei" property="DLDanWei"/>
+        <result column="DLDiZhi" property="DLDiZhi"/>
+        <result column="DLLianXiRen" property="DLLianXiRen"/>
+        <result column="DLDianHua" property="DLDianHua"/>
+        <result column="GongShiWenjian" property="gongShiWenjian"/>
+        <result column="BeiZhu" property="beiZhu"/>
+        <result column="ChenngJiaoZhuangTai" property="chenngJiaoZhuangTai"/>
+    </resultMap>
+
+    <!--根据id获取中标公告-->
+    <select id="getWinBidById" resultType="com.dedasp.system.domain.spdomain.SysWinBid">
+        select zbgs.ZBS_ID,zbgs.ZhaoBiaoName,zbgs.BiaoTi,zbgs.ZhaoBiaoCode,zbgs.XiangMuName,zbgs.XianMuBianHao,zbgs.CaiGouGongGaoFaBuRiqi,zbgs.PingShenRiQi,
+        zbgs.ZhongBiaoDanWei,zbgs.ZhongBiaoJia,zbgs.GongShiKaiShiDate,zbgs.GongShiJieShuDate,zbgs.TCYY,zbgs.LianXiBuMen,zbgs.LianXiDianHua,zbgs.DanWeiMingCheng,
+        zbgs.CGDiZhi,zbgs.CGLianXiRen,zbgs.CGDianHua,zbgs.DLDanWei,zbgs.DLDiZhi,zbgs.DLLianXiRen,zbgs.DLDianHua,
+        zbgs.BeiZhu,sa.S_AttchName as GongShiWenjian,ChenngJiaoZhuangTai
+        from Suplier.dbo.ZB_ZhongBiaoGongShi zbgs
+        left join Suplier.dbo.S_Attechment  sa
+        on zbgs.ZBS_ID = sa.S_AttchOwner
+        where zbgs.ZBS_ID = #{zgid}
+    </select>
+</mapper>

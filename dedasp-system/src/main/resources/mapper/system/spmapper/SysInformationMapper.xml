@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysInformationMapper">
+    <resultMap id="informationMap" type="information">
+        <id column="ZLX_ID" property="id"/>
+        <result column="Code" property="code"/>
+        <result column="Name" property="name"/>
+        <result column="JianJie" property="jianJie"/>
+        <result column="Annex" property="annex"/>
+    </resultMap>
+    <select id="initTable" resultMap="informationMap">
+        select zlxz.ZLX_ID,zlxz.Name,zlxz.Code,zlxz.JianJie,sa.S_AttchPath as Annex
+        from Suplier.dbo.ZiLiaoXiaZai zlxz
+        left join Suplier.dbo.S_Attechment sa
+        on zlxz.ZLX_ID = sa.S_AttchOwner
+    </select>
+</mapper>

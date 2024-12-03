@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.QuestionAnnexMapper">
+    <resultMap id="questionAnnexMapper" type="sysQuestionAnnex">
+        <result column="annex_id" property="annexId"/>
+        <result column="question_id" property="questionId"/>
+    </resultMap>
+    <insert id="addAnnexQuestion">
+        insert into sys_question_annex(question_id,annex_id) values (#{questionId},#{annexId})
+    </insert>
+    <delete id="delQuestionAnnexByQuestionsId">
+        delete from sys_question_annex where question_id in
+        <foreach collection="questionsIds" item="questionId" open="(" separator="," close=")">
+            #{questionId}
+        </foreach>
+    </delete>
+    <select id="getAnnexIdsByQuestionsId" resultType="java.lang.Long">
+        select annex_id
+        from sys_question_annex
+        where question_id in
+        <foreach collection="questionsIds" item="questionId" open="(" separator="," close=")">
+            #{questionId}
+        </foreach>
+    </select>
+</mapper>

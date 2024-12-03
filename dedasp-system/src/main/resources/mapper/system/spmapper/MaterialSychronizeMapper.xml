@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.MaterialSychronizeMapper">
+
+    <resultMap id="SynchronizationScheduleMap" type="contractMiddle">
+        <id column="contract_id" property="contractId" />
+        <result column="WorkFlowGUID" property="workFlowGUID" />
+        <result column="is_synchronize" property="isSynchronize"/>
+        <result column="type" property="type"/>
+    </resultMap>
+
+    <resultMap id="dtoMap" type="com.dedasp.system.dto.SychnoizedDTO">
+        <result column="结算通知单" property="annex"/>
+        <result column="WorkFlowGUID" property="workFlowGUID"/>
+    </resultMap>
+    <!--获取需要同步的数据WorkFlowGUID-->
+    <select id="getMiddleData" resultMap="SynchronizationScheduleMap">
+        select * from contract_middle where is_synchronize = 0 and type = 2
+    </select>
+
+    <!--同步数据-->
+    <insert id="startSynchronize">
+        insert into Suplier.dbo.CaiLiaoHeTongJieSuan(CLHT_ID,WorkFlowGUID,HeTongMingCheng,HeTongBianHao,XiangMuMingCheng,XiangMuBianMa,supplier_name,supplier_code,contract_amount,contract_amount_uppercase,LeiJiYiJieSuanJinE,LeiJiYiFuKuanJinE,LeiJiYiKaiPiaoBuHanBenQi,BenCiKaiPiaoJinE,billing_type,billing_date,billing_amount,billing_amount_uppercase,receivables_unit,open_bank,account,cashier,remark,contract_annex,invoice_scan_card,offer_material,machine_expense,reward_punish_expense,other_expense,forever_deduct_sum,reward_punish_base_expense,quality_pledge_expense,temporarily_other_expense,temporarily_deduct_sum,ZSQMLJJSJE,ZBQMLJJSJE,bill_notice,GZJSS,type,settlement_date,流程进度)
+        <foreach collection="middleList" item="middle" index="index" separator="union all">
+            select newid(),WorkFlowGUID,合同名称,合同编号,项目名称,项目编码,供应商名称,供应商编码,合同金额,合同金额大写,累计结算金额,累计已付款金额,累计已开票不含本期,本次开票金额,结算类型,结算日期,本次扣款后结算金额含税,结算金额大写,收款单位,开户行,账号,出纳,备注,附件,发票扫描件,甲供材料,机械费,奖罚金,其他费用,永久扣款合计,奖罚基金,质保金,暂时其他费用,暂时扣款合计,至上期末累计结算金额,至本期末累计结算金额,结算通知单,盖章结算书,2,结算日期,(SELECT WorkFlowStep FROM CRMXMKJ.dbo.材料合同结算 WHERE WorkFlowGUID = #{middle.workFlowGUID}) from CRMXMKJ.dbo.材料合同结算主表 where WorkFlowGUID = #{middle.workFlowGUID}
+        </foreach>
+    </insert>
+
+
+    <!--修改完成标识-->
+    <update id="updateSynchronizeStatus">
+        update contract_middle set is_synchronize = 1
+        <where>
+            contract_id in
+            <foreach collection="middleList" item="middle" open="(" separator="," close=")">
+                #{middle.contractId}
+            </foreach>
+        </where>
+    </update>
+
+    <!--获取附件路径-->
+    <select id="getPathList" resultMap="dtoMap">
+        select 结算通知单,WorkFlowGUID from 材料合同结算主表 where WorkFlowGUID in
+        <foreach collection="middleList" item="middle" open="(" separator="," close=")">
+            #{middle.workFlowGUID}
+        </foreach>
+    </select>
+
+    <!--更新红树林中的附件地址-->
+    <insert id="insertHSLAnnex" parameterType="sysAttechment">
+        insert into Suplier.dbo.S_Attechment (S_AttchID,S_AttchOwner,S_AttchName,S_AttchPath,S_AttchType,S_AttchSize,S_AttchCreatorID,S_AttchNodeID)
+        select newid(),CLHT_ID,#{attchName},#{attchPath},#{attchType},#{attchSize},#{attchCreatorID},#{attchNodeID} from Suplier.dbo.CaiLiaoHeTongJieSuan where WorkFlowGUID = #{attchOwner}
+    </insert>
+
+
+
+    <!--获取attchID-->
+    <select id="getAttchID" parameterType="java.lang.String" statementType="CALLABLE" resultType="java.lang.String">
+        { call Suplier.dbo.CreateMainKeyEx ('S_Attechment') }
+    </select>
+
+
+</mapper>

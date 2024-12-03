@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysBidResultMapper">
+    <resultMap id="sysBidResultMap" type="sysBidResult">
+        <id column="bidResultsId" property="bidResultsId"/>
+        <result column="projectName" property="projectName"/>
+        <result column="projectCode" property="projectCode"/>
+        <result column="tenderUnit" property="tenderUnit"/>
+        <result column="bidUnit" property="bidUnit"/>
+        <result column="bidQuotations" property="bidQuotations"/>
+        <result column="bidDate" property="bidDate"/>
+        <result column="bidOpenDate" property="bidOpenDate"/>
+        <result column="bidEvaluationExperts" property="bidEvaluationExperts"/>
+        <result column="bidAmount" property="bidAmount"/>
+        <result column="dateOfDelivery" property="dateOfDelivery"/>
+        <result column="bidEvaluationScore" property="bidEvaluationScore"/>
+    </resultMap>
+    <select id="getEvaluationList" resultMap="sysBidResultMap">
+        select * from sys_bid_result
+    </select>
+
+
+    <resultMap id="hslBidResultMap" type="hSLBidResult">
+        <id column="PJG_ID" property="PJGID"/>
+        <result column="Name" property="name"/>
+        <result column="Code" property="code"/>
+        <result column="Prj_Name" property="prjName"/>
+        <result column="Prj_Code" property="prjCode"/>
+        <result column="CaiGouGongGaoFaBuDate" property="caiGouGongGaoFaBuDate"/>
+        <result column="PingShenDate" property="pingShenDate"/>
+        <result column="GongShiKaiShiRiQi" property="gongShiKaiShiRiQi"/>
+        <result column="GongShiJieShuRiQi" property="gongShiJieShuRiQi"/>
+        <result column="LianXiBuMen" property="lianXiBuMen"/>
+        <result column="LianXiDianHua" property="lianXiDianHua"/>
+        <result column="CGDanWei" property="CGDanWei"/>
+        <result column="CADiZhi" property="CADiZhi"/>
+        <result column="CGLianXiRen" property="CGLianXiRen"/>
+        <result column="CGDianHua" property="CGDianHua"/>
+        <result column="DLDanWei" property="DLDanWei"/>
+        <result column="DLDiZhi" property="DLDiZhi"/>
+        <result column="DLLianXiRen" property="DLLianXiRen"/>
+        <result column="DLDianHua" property="DLDianHua"/>
+        <result column="TuiJianZhongBiao" property="tuiJianZhongBiao"/>
+        <collection property="details" ofType="hSLBidResultDetail">
+            <id property="ZBHID" column="ZBH_ID"/>
+            <result property="PJGID" column="PJG_ID"/>
+            <result property="danWeiName" column="DanWeiName"/>
+            <result property="lianXiRen" column="LianXiRen"/>
+            <result property="lianXiFangShi" column="LianXiFangShi"/>
+            <result property="chuShiBaoJia" column="ChuShiBaoJia"/>
+            <result property="touBiaoJia" column="TouBiaoJia"/>
+            <result property="gongQi" column="GongQi"/>
+            <result property="deFen" column="DeFen"/>
+        </collection>
+    </resultMap>
+    <select id="getBidById" resultMap="hslBidResultMap">
+        select top 3 pbjg.PJG_ID,pbjg.Prj_Name,pbjg.Prj_Code,pbjg.Name,pbjg.Code,pbjg.CaiGouGongGaoFaBuDate,pbjg.PingShenDate,pbjg.GongShiKaiShiRiQi,
+        pbjg.GongShiJieShuRiQi,pbjg.CGDanWei,pbjg.CADiZhi,pbjg.CGDianHua,pbjg.DLDanWei,pbjg.DLDiZhi,pbjg.DLLianXiRen,
+        pbjg.DLDianHua,pbjg.TuiJianZhongBiao,
+        zbhxr.ZBH_ID,zbhxr.DanWeiName,zbhxr.LianXiRen,zbhxr.LianXiFangShi,zbhxr.LianXiFangShi,zbhxr.ChuShiBaoJia,zbhxr.TouBiaoJia,
+        zbhxr.GongQi,zbhxr.DeFen
+        from Suplier.dbo.PB_PingBiaoJieGuo pbjg
+        left join Suplier.dbo.ZhongBiaoHouXuanRen zbhxr
+        on pbjg.PJG_ID = zbhxr.PJG_ID
+        where pbjg.PJG_ID = #{PJGID}
+    </select>
+
+</mapper>

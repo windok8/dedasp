@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SupplierManagerMapper">
+
+    <resultMap id="sysSupplierManagerMap" type="sysSupplierManager">
+        <id column="id" property="id"/>
+        <result column="建档人" property="Archiver"/>
+        <result column="供应商编码" property="SupplierNumber"/>
+        <result column="SupplierName" property="SupplierName"/>
+        <result column="SupplierDescription" property="SupplierDescription"/>
+        <result column="BrandCategory" property="BrandCategory"/>
+        <result column="SupplierGroup" property="SupplierGroup"/>
+        <result column="SupplierType" property="SupplierType"/>
+        <result column="SupplierGrade" property="SupplierGrade"/>
+        <result column="Realname" property="Realname"/>
+        <result column="Gender" property="Gender"/>
+        <result column="BirthDate" property="BirthDate"/>
+        <result column="PhoneNumber" property="PhoneNumber"/>
+        <result column="Address" property="Address"/>
+        <result column="Note" property="Note"/>
+        <result column="照片" property="Photo"/>
+        <result column="开户银行" property="BankOpenName"/>
+        <result column="开户名称" property="BankOpenAccount"/>
+        <result column="账号" property="Account"/>
+        <result column="开户地址" property="BankOpenAddress"/>
+        <result column="账期" property="AccountPeriod"/>
+        <result column="授信额度" property="CreditLine"/>
+        <result column="期初未开票金额" property="UnbilledAmount"/>
+        <result column="开票公司名称" property="InvoiceCompanyName"/>
+        <result column="纳税人识别号" property="TaxpayerIdentificationNumber"/>
+        <result column="Email" property="Email"/>
+        <result column="Password" property="Password"/>
+        <result column="AppID" property="AppID"/>
+        <result column="openid" property="openid"/>
+        <result column="账户余额" property="AccountBalance"/>
+        <result column="账单日" property="BillDay"/>
+        <result column="期初账户余额" property="InitialAccountBalance"/>
+        <result column="应开票金额" property="AmountToBeInvoiced"/>
+        <result column="已开票金额" property="InvoicedAmount"/>
+        <result column="未开票金额" property="UninvoicedAmount"/>
+        <result column="可用账户余额" property="AvailableAccountBalance"/>
+        <result column="合作日期" property="CooperateDate"/>
+        <result column="统一社会信用代码" property="SocialCreditCode"/>
+        <result column="注册资金" property="RegisteredCapital"/>
+        <result column="营业执照正本" property="BusinessLicense"/>
+        <result column="营业执照副本" property="BusinessLicenseCopy"/>
+        <result column="授权书" property="AuthorizationLetter"/>
+        <result column="授权人身份证复印件" property="AuthorizerIdCardCopy"/>
+        <result column="其他证件" property="OtherDocuments"/>
+        <result column="供应商类别" property="SupplierCategory"/>
+        <result column="企业性质" property="EnterpriseNature"/>
+        <result column="传真号码" property="FaxNumber"/>
+        <result column="公司网址" property="Website"/>
+        <result column="法人代表" property="LegalRepresentative"/>
+        <result column="成立时间" property="EstablishmentTime"/>
+        <result column="主要客户" property="MajorCustomers"/>
+        <result column="主要产品" property="MajorProducts"/>
+        <result column="经营范围" property="BusinessScope"/>
+    </resultMap>
+    <select id="getAccountInfo" resultType="com.dedasp.system.domain.spdomain.SysSupplierManager" resultMap="sysSupplierManagerMap">
+        select sm.id,sm.建档人,sm.供应商编码,sm.SupplierName,sm.SupplierDescription,sm.BrandCategory,sm.SupplierGroup,sm.SupplierType,sm.SupplierGrade ,
+        sm.Realname,sm.Gender,sm.BirthDate,sm.PhoneNumber,sm.Address,sm.Note,sm.照片,sm.开户银行,sm.开户名称,sm.账号,sm.开户地址,sm.账期,sm.授信额度,sm.期初未开票金额,
+        sm.应开票金额,sm.已开票金额,sm.未开票金额,sm.可用账户余额,sm.合作日期,sm.统一社会信用代码,sm.注册资金,sm.营业执照正本,sm.营业执照副本,
+        sm.授权书,sm.授权人身份证复印件,sm.其他证件,sm.供应商类别,sm.企业性质,sm.传真号码,sm.公司网址,sm.法人代表,sm.成立时间,sm.主要客户,sm.主要产品,sm.经营范围
+        from sys_user_supplier_manager susm
+        right join 供应商管理 sm
+        on susm.supplier_number = sm.供应商编码
+        where susm.user_id = #{userId}
+    </select>
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysTenderMaaper">
+    <resultMap id="tenderMapper" type="sysTender">
+        <id column="ZG_ID" property="ZGID"/>
+        <result column="tender_name" property="tenderName"/>
+        <result column="tender_code" property="tenderCode"/>
+        <result column="project_name" property="projectName"/>
+        <result column="project_code" property="projectCode"/>
+        <result column="tender_type" property="tenderType"/>
+        <result column="tender_limit_price" property="tenderLimitPrice"/>
+        <result column="enlists_start" property="enlistsStart"/>
+        <result column="enlists_end" property="enlistsEnd"/>
+        <result column="tender_class" property="tenderClass"/>
+        <result column="enlists_type" property="enlistsType"/>
+        <result column="tender_unit" property="tenderUnit"/>
+        <result column="tender_contact" property="tenderContact"/>
+        <result column="contact_phone" property="contactPhone"/>
+        <result column="tender_project_description" property="tenderProjectDescription"/>
+        <result column="XiangMuSuoZaiDi" property="xiangMuSuoZaiDi" />
+        <result column="CaiGouRen" property="caiGouRen" />
+        <result column="DaiLiJiGou" property="daiLiJiGou" />
+        <result column="CaiGouFangShi" property="caiGouFangShi" />
+        <result column="CaiGouXingShi" property="caiGouXingShi" />
+        <result column="ZiGeSHenChaFangShi" property="ziGeSHenChaFangShi" />
+        <result column="PingShenFangFa" property="pingShenFangFa" />
+        <result column="JiHuaGongQi" property="jiHuaGongQi" />
+        <result column="ZiJinLaiYuan" property="ziJinLaiYuan" />
+        <result column="BaoJianHuaFen" property="baoJianHuaFen" />
+        <result column="GongYingShangZiGeYaoQiu" property="gongYingShangZiGeYaoQiu" />
+        <result column="BaoJianZiGeYaoQiu" property="baoJianZiGeYaoQiu" />
+        <result column="ZiZhiZiGeYaoQiu" property="ziZhiZiGeYaoQiu" />
+        <result column="YeJiYaoQiu" property="yeJiYaoQiu" />
+        <result column="CaiWuYaoQiu" property="caiWuYaoQiu" />
+        <result column="XinYuYaoQiu" property="xinYuYaoQiu" />
+        <result column="RenYuanYaoQiu" property="renYuanYaoQiu" />
+        <result column="LianHeTIYaoQiu" property="lianHeTIYaoQiu" />
+        <result column="QiTaYaoQiu" property="qiTaYaoQiu" />
+        <result column="CaiGouWenJianHuoQu" property="caiGouWenJianHuoQu" />
+        <result column="CaiGouWenJianHuoQuShiJian" property="caiGouWenJianHuoQuShiJian" />
+        <result column="CaiGouWenJianHuoQuShiJianJS" property="caiGouWenJianHuoQuShiJianJS" />
+        <result column="CaiGouWenJianHuoQuDIDian" property="caiGouWenJianHuoQuDIDian" />
+        <result column="CaiGouWenJianFeiYong" property="caiGouWenJianFeiYong" />
+        <result column="WenJianHuoQuYaoQiu" property="wenJianHuoQuYaoQiu" />
+        <result column="XiangMuGaiKuang" property="xiangMuGaiKuang"/>
+        <result column="XiangYingWenJianDeDiJiao" property="xiangYingWenJianDeDiJiao" />
+        <result column="XiangYingWenJianDiJiaoShiJianKS" property="xiangYingWenJianDiJiaoShiJianKS" />
+        <result column="XiangYingWenJianDiJiaoDidian" property="xiangYingWenJianDiJiaoDidian" />
+        <result column="DiJiaoJieZhiShijian" property="diJiaoJieZhiShijian" />
+        <result column="DiJiaoFangShi" property="diJiaoFangShi" />
+        <result column="DiJiaoDiDian" property="diJiaoDiDian" />
+        <result column="QITaShuoMing" property="qITaShuoMing" />
+        <result column="KaiQiDate" property="kaiQiDate" />
+        <result column="KaiQiDIDian" property="kaiQiDIDian" />
+        <result column="KaiQiFangShi" property="kaiQiFangShi" />
+        <result column="GongGao" property="gongGao" />
+        <result column="BuChongXinXi" property="buChongXinXi" />
+        <result column="CGDanWeiMingCheng" property="procurementDanWeiMingCheng" />
+        <result column="CGDiZhi" property="procurementDiZhi" />
+        <result column="CGYouBian" property="procurementYouBian" />
+        <result column="CGLianXiRen" property="procurementLianXiRen" />
+        <result column="CGDianHua" property="procurementDianHua" />
+        <result column="CGChuanZhen" property="procurementChuanZhen" />
+        <result column="DLDanWei" property="proxyDanWei" />
+        <result column="DLDiZhi" property="proxyDiZhi" />
+        <result column="DLYouBian" property="proxyYouBian" />
+        <result column="DLLianXiRen" property="proxyLianXiRen" />
+        <result column="DLDianHua" property="proxyDianHua" />
+        <result column="DLChuanZhen" property="proxyChuanZhen" />
+
+        <collection property="sysTenderDetails" ofType="sysTenderDetail">
+            <id column="ZBQD_ID" property="ZBQDID"/>
+            <result column="ZG_ID" property="ZGID"/>
+            <result column="code" property="code" />
+            <result column="name" property="name"/>
+            <result column="specification" property="specification"/>
+            <result column="unit" property="unit" />
+            <result column="quantity" property="quantity" />
+            <result column="remark" property="remark"/>
+        </collection>
+
+    </resultMap>
+    <insert id="addTender" useGeneratedKeys="true" keyProperty="tenderId">
+        insert into 招标公告(tenderTheme,tenderNumber,projectName,tenderType,项目编号,quotationMethod,bidLnitiator,tenderUnit,tenderContact,tenderPhone,tenderLimit,bidDate,quotationStart,quotationEnd,answeringStart,answeringEnd,remark,annex,UserGuid,AddDate,UpdateUserGuid,UpdateDate)
+        values(#{tenderTheme},#{tenderNumber},#{projectName},#{tenderType},#{项目编号},#{quotationMethod},#{bidLnitiator},#{tenderUnit},#{tenderContact},#{tenderPhone},#{tenderLimit},#{bidDate},#{quotationStart},#{quotationEnd},#{answeringStart},#{answeringEnd},#{remark},#{annex},'00000000-0000-0000-0000-000000000000',GETDATE(),'00000000-0000-0000-0000-000000000000',GETDATE())
+    </insert>
+
+    <select id="selectTenderList" resultType="sysTender2">
+        SELECT t.ID as tender_id,t.tenderTheme,t.tenderNumber,t.projectName,t.tenderType,t.项目编号,t.quotationMethod,t.bidLnitiator,t.tenderUnit,
+        t.tenderContact,t.tenderPhone,t.tenderLimit,t.bidDate,t.quotationStart,t.quotationEnd,t.answeringStart,t.answeringEnd,t.remark,t.annex,
+        td.ID as tender_detail_id,td.资源名称,td.单位,td.规格型号,td.数量,td.工作内容,td.计量规则,td.备注
+        FROM 招标公告 t
+        left join sys_tender_detail_relationship tdr
+        on t.tenderNumber = tdr.tender_number
+        left join 招标明细表 td
+        on tdr.tender_detail_id = td.ID
+        <if test="type != null">
+            where tenderType = #{type}
+        </if>
+    </select>
+
+    <select id="getTenderInfoByType" resultType="com.dedasp.system.dto.TenderInfoDTO">
+        select
+            (select count(tenderType) from 招标公告 where tenderType = 0) as openTenderCount,
+            (select count(tenderType) from 招标公告 where tenderType = 1) as requestForQuotationCount,
+            (select count(tenderType) from 招标公告 where tenderType = 2) as invitationTenderCount,
+            (select count(tenderType) from 招标公告 where tenderType = 3) as singleSourceCount;
+    </select>
+
+    <!--根据id获取招标公告-->
+    <select id="getTendreById" resultMap="tenderMapper">
+        select zbgg.ZG_ID,zbgg.tender_name,zbgg.tender_code,zbgg.XiangMuSuoZaiDi,zbgg.CaiGouRen,zbgg.DaiLiJiGou,spti.S_ParameterItemName as CaiGouFangShi,zbgg.CaiGouXingShi,zbgg.ZiGeSHenChaFangShi,
+        zbgg.PingShenFangFa,zbgg.JiHuaGongQi,zbgg.ZiJinLaiYuan,zbgg.BaoJianHuaFen,zbgg.GongYingShangZiGeYaoQiu,
+        zbgg.BaoJianZiGeYaoQiu,zbgg.ZiZhiZiGeYaoQiu,zbgg.YeJiYaoQiu,zbgg.CaiWuYaoQiu,zbgg.XinYuYaoQiu,
+        zbgg.renYuanYaoQiu,zbgg.LianHeTIYaoQiu,zbgg.QiTaYaoQiu,zbgg.CaiGouWenJianHuoQu,zbgg.CaiGouWenJianHuoQuShiJian,
+        zbgg.CaiGouWenJianHuoQuShiJianJS,zbgg.CaiGouWenJianHuoQuDIDian,zbgg.CaiGouWenJianFeiYong,zbgg.WenJianHuoQuYaoQiu,zbgg.XiangYingWenJianDeDiJiao,
+        zbgg.XiangYingWenJianDiJiaoShiJianKS,zbgg.XiangYingWenJianDiJiaoDidian,zbgg.DiJiaoJieZhiShijian,zbgg.DiJiaoFangShi,zbgg.DiJiaoDiDian,
+        zbgg.DiJiaoJieZhiShijian,zbgg.DiJiaoFangShi,zbgg.DiJiaoDiDian,zbgg.QITaShuoMing,zbgg.KaiQiDate,
+        zbgg.KaiQiDIDian,zbgg.KaiQiFangShi,zbgg.GongGao,zbgg.XiangMuGaiKuang,zbgg.DLDiZhi,zbgg.DLYouBian,zbgg.DLLianXiRen,zbgg.DLDianHua,zbgg.DLChuanZhen,
+        zbgg.GongGao,zbgg.BuChongXinXi,zbgg.CGDanWeiMingCheng,zbgg.CGDiZhi,zbgg.CGYouBian,zbgg.CGLianXiRen,zbgg.CGDianHua,zbgg.CGChuanZhen,zbgg.DLDanWei,
+        zbqd.ZBQD_ID,zbqd.name,zbqd.specification,zbqd.unit,zbqd.offer_no_tax,zbqd.remark,zbqd.quantity,zbqd.code
+        from Suplier.dbo.ZhaoBiaoGongGao2 zbgg
+        left join Suplier.dbo.ZhaoBiaoQingDan zbqd
+        on zbgg.ZG_ID = zbqd.ZG_ID
+        join Suplier.dbo.S_SysParameterItem spti
+        on spti.S_SpiID = zbgg.tender_class
+        where zbgg.ZG_ID = #{ZGID}
+    </select>
+
+</mapper>

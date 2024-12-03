@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.schedule.SunshineMapper">
+    <resultMap id="SynchronizationScheduleMap" type="contractMiddle">
+        <id column="contract_id" property="contractId" />
+        <result column="WorkFlowGUID" property="workFlowGUID" />
+        <result column="is_synchronize" property="isSynchronize"/>
+        <result column="type" property="type" />
+    </resultMap>
+
+    <resultMap id="dtoMap" type="com.dedasp.system.dto.SunshineDTO">
+        <result column="招标文件定稿" property="tenderFileFinalize"/>
+        <result column="WorkFlowGUID" property="workFlowGUID"/>
+        <result column="招采控制价编制文件或说明文件定稿" property="zhaoBiaoKongZhiJia"/>
+    </resultMap>
+
+    <select id="getMiddleData" resultMap="SynchronizationScheduleMap">
+        select * from contract_middle where is_synchronize = 0 and type = 5
+    </select>
+
+    <insert id="startSynchronize">
+        insert into Suplier.dbo.sunshine_bidding(SSB_ID,WorkFlowGUID,applicat,phone,fillout_date,form_code,recruitment_event_name,need_for_unit,belong_to_company,sunshine_recruitment_method,recruitment_project_type,tender_description,tender_file_finalize,project_name,project_code,ZhaoBiaoKongZhiJia,ZhaoCaiLeiBie,ShiFouBuLu)
+        <foreach collection="middleList" item="middle" index="index" separator="union all">
+            select newid(),WorkFlowGUID,申请人,电话,填报时间,表单编号,招采事项名称,需求单位,所属公司,阳光招采方式,招采项目类型,招标的简要描述,招标文件,项目名称,项目编码,说明文件定稿,招采类别,是否补录招采文件 from CRMXMKJ.dbo.阳光招标方案评审表主表 where WorkFlowGUID = #{middle.workFlowGUID} and 招采类别 = '委托采购'
+        </foreach>
+    </insert>
+
+
+    <update id="updateSynchronizeStatus">
+        update contract_middle set is_synchronize = 1
+        <where>
+            contract_id in
+            <foreach collection="middleList" item="middle" open="(" separator="," close=")">
+                #{middle.contractId}
+            </foreach>
+        </where>
+    </update>
+
+    <!--获取附件路径-->
+    <select id="getPathList" resultMap="dtoMap">
+        select 招标文件,说明文件定稿,WorkFlowGUID from 阳光招标方案评审表主表 where WorkFlowGUID in
+        <foreach collection="middleList" item="middle" open="(" separator="," close=")">
+            #{middle.workFlowGUID}
+        </foreach>
+    </select>
+
+    <insert id="insertHSLAnnex">
+        insert into Suplier.dbo.S_Attechment (S_AttchID,S_AttchOwner,S_AttchName,S_AttchPath,S_AttchType,S_AttchSize,S_AttchCreatorID,S_AttchNodeID)
+        <foreach collection="desPathList" item="desPath" separator="union all">
+            select newid(),SSB_ID,#{attchName},#{attchPath},#{attchType},#{attchSize},#{attchCreatorID},#{attchNodeID} from Suplier.dbo.project_contract_billing where WorkFlowGUID = #{attchOwner}
+        </foreach>
+    </insert>
+
+</mapper>

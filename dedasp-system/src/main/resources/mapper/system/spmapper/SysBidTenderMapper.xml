@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysBidTenderMapper">
+    <resultMap id="sysBidTenderMap" type="sysBidTender">
+        <result column="tender_number" property="tenderNumber"/>
+        <result column="bid_id" property="bidId"/>
+    </resultMap>
+
+    <insert id="addBidTenderRelation">
+        insert into sys_bid_tender(tender_number, bid_id) values(#{tenderNumber}, #{bidId})
+    </insert>
+</mapper>

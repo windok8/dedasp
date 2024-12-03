@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysWinBidPublicityMapper">
+    <resultMap id="sysWinBidPublicityMap" type="sysWinBidPublicity">
+        <id column="publicity_id" property="publicityId"/>
+        <result column="projectName" property="projectName"/>
+        <result column="projectCode" property="projectCode"/>
+        <result column="purchasingAgent" property="purchasingAgent"/>
+        <result column="agency" property="agency"/>
+        <result column="bidDate" property="bidDate"/>
+        <result column="winningCandidate" property="winningCandidate"/>
+        <result column="bidAmount" property="bidAmount"/>
+        <result column="bidContent" property="bidContent"/>
+        <result column="projectLeader" property="projectLeader"/>
+        <result column="periodPublicity" property="periodPublicity"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+    <select id="getPublicityList" resultMap="sysWinBidPublicityMap">
+        select * from sys_win_bid_publicity
+    </select>
+
+</mapper>

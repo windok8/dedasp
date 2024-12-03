@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.AnnexMapper">
+
+    <resultMap id="annexMap" type="sysAnnex">
+        <id column="annex_id" property="annexId"/>
+        <result column="annex_path" property="annexPath"/>
+        <result column="annex_name" property="annexName"/>
+        <result column="annex_suffix" property="annexSuffix"/>
+    </resultMap>
+
+    <!-- 添加附件 -->
+    <insert id="addAnnex" useGeneratedKeys="true" keyProperty="annexId">
+        insert into sys_annex(annex_path,annex_name,annex_suffix) values(#{annexPath},#{annexName},#{annexSuffix})
+    </insert>
+    <!--删除附件-->
+    <delete id="delAnnexByAnnexId">
+        delete from sys_annex where annex_id in
+        <foreach collection="annexIds" item="annexId" open="(" separator="," close=")">
+            #{annexId}
+        </foreach>
+    </delete>
+
+</mapper>

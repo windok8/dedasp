@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.NextFlowAnnexPathMapper">
+    <resultMap id="synMap" type="fileDTO">
+        <id column="S_AttchID" property="id"/>
+        <result column="S_AttchPath" property="path"/>
+    </resultMap>
+
+    <!-- 【通用 - 获取 工程合同 & 材料合同 结算相关 附件数据】 -->
+    <select id="getStatementPath" resultMap="synMap">
+        SELECT sa.S_AttchPath, sa.S_AttchID
+        FROM ${tableName} tb
+        RIGHT JOIN Suplier.dbo.S_Attechment sa ON tb.${ownerColumn} = sa.S_AttchOwner
+        WHERE tb.WorkFlowGUID = #{workFlowGUID}
+        AND sa.S_AttchNodeID = #{attchNodeID}
+    </select>
+
+    <select id="getStatementPath2" resultMap="synMap">
+        SELECT sa.S_AttchPath, sa.S_AttchID
+        FROM ${tableName} tb
+        RIGHT JOIN Suplier.dbo.S_Attechment sa ON tb.${ownerColumn} = sa.S_AttchOwner
+        WHERE tb.WorkFlowGUID = #{workFlowGUID}
+        AND sa.S_AttchNodeID = #{attchNodeID}
+        AND CONVERT(DATE, sa.S_AttchCreatedTime) = CONVERT(DATE, GETDATE())
+    </select>
+
+    <update id="updateQGBAnnex">
+        UPDATE ${tableName}
+        SET ${columnName} = #{columnValue}
+        WHERE WorkFlowGUID = #{workFlowGUID}
+    </update>
+
+    <update id="updateHSLStep">
+        UPDATE ${tableName}
+        SET 流程进度 = '发起人确认'
+        WHERE WorkFlowGUID = #{workFlowGUID}
+    </update>
+
+</mapper>

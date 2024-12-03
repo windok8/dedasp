@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysBidExpertMapper">
+    <resultMap id="BidExpertMap" type="sysBidExpert">
+        <id column="AgencyID" property="AgencyID"/>
+        <result column="DepartmentID" property="DepartmentID"/>
+        <result column="专家编号" property="专家编号"/>
+        <result column="姓名" property="姓名"/>
+        <result column="性别" property="性别"/>
+        <result column="专家类别" property="专家类别"/>
+        <result column="职称" property="职称"/>
+        <result column="技术专业" property="技术专业"/>
+        <result column="出生日期" property="出生日期"/>
+        <result column="工作时间" property="工作时间"/>
+        <result column="联系电话" property="联系电话"/>
+        <result column="文化程度" property="文化程度"/>
+        <result column="工作单位" property="工作单位"/>
+        <result column="区域" property="区域"/>
+        <result column="备注" property="备注"/>
+        <result column="附件" property="附件"/>
+    </resultMap>
+    <select id="getBidExpertList" resultMap="BidExpertMap">
+        select * from 评标专家库
+    </select>
+
+</mapper>

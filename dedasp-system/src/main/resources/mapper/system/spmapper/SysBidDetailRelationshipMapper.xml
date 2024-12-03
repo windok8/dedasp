@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysBidDetailRelationshipMapper">
+    <resultMap id="sysBidDetailRelationshipMap" type="sysBidDetailRelationship">
+        <result column="bid_id" property="bidId"/>
+        <result column="bid_Detail_id" property="bidDetailId"/>
+    </resultMap>
+
+    <!--添加投标,跟明细的联系-->
+    <insert id="addBidDetailRelation">
+        insert into sys_bid_detail_relationship(bid_id, bid_Detail_id)
+        values(#{bidId},#{bidDetailId})
+    </insert>
+</mapper>

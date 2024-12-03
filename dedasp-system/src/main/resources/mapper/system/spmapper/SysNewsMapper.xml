@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysNewsMapper">
+
+    <resultMap id="SysNewsMap" type="com.dedasp.system.domain.spdomain.News">
+        <id column="zal_ID" property="ZALID"/>
+        <result column="WorkFlowGUID" property="workFlowGUID"/>
+        <result column="zal_Title" property="title"/>
+        <result column="zal_KnowledgeType" property="knowledgeType"/>
+        <result column="zal_FileClass" property="fileClass"/>
+        <result column="zal_FilePath" property="filePath"/>
+        <result column="zal_FileName" property="fileName"/>
+        <result column="zal_IsPush" property="isPush"/>
+        <result column="zal_FabuTime" property="fabuTime"/>
+        <result column="zal_Lable" property="lable"/>
+        <result column="zal_BriefInfo" property="briefInfo"/>
+        <result column="zal_Content" property="content"/>
+        <result column="zal_RekeaseTime" property="rekeaseTime"/>
+        <result column="zal_RekeaseUser" property="rekeaseUser"/>
+        <result column="zal_Average" property="average"/>
+        <result column="zal_ClickCount" property="clickCount"/>
+        <result column="BigClass" property="bigClass"/>
+    </resultMap>
+
+    <resultMap id="dtoMap" type="com.dedasp.system.dto.SychnoizedDTO">
+        <result column="newsImage" property="annex"/>
+        <result column="WorkFlowGUID" property="workFlowGUID"/>
+    </resultMap>
+
+    <resultMap id="SynchronizationScheduleMap" type="contractMiddle">
+        <id column="contract_id" property="contractId" />
+        <result column="WorkFlowGUID" property="workFlowGUID" />
+        <result column="is_synchronize" property="isSynchronize"/>
+        <result column="type" property="type" />
+    </resultMap>
+
+    <resultMap id="attechmentMap" type="sysAttechment">
+        <id property="attchID" column="ID"/>
+    </resultMap>
+
+    <select id="getMiddleData" resultMap="SynchronizationScheduleMap">
+        select * from contract_middle where is_synchronize = 0 and type = 3
+    </select>
+
+    <insert id="startSynchronize">
+        insert into Suplier.dbo.ZSK_Article(zal_Title,zal_KnowledgeType,zal_FileClass,zal_FilePath,zal_FileName,zal_IsPush,zal_FabuTime,zal_Lable,zal_BriefInfo,zal_Content,zal_RekeaseTime,zal_RekeaseUser,zal_Average,zal_ClickCount,zal_ID,BigClass,WorkFlowGUID)
+        <foreach collection="middleList" item="middle" index="index" separator="union all">
+            select newsHeadlines,'SEM221214000007','imagenew',newsImage,null,'false',Released,'标准',newsHeadlines,newsContent,getdate(),null,null,null,newid(),'EipWeb',WorkFlowGUID from 公司新闻 where WorkFlowGUID = #{middle.workFlowGUID}
+        </foreach>
+    </insert>
+
+    <select id="selectByWorkFlowGUID" resultMap="SysNewsMap">
+        select zal_Content,WorkFlowGUID from Suplier.dbo.ZSK_Article where WorkFlowGUID in
+        <foreach collection="middleList" item="middle" index="index" open="(" close=")" separator=",">
+            #{middle.workFlowGUID}
+        </foreach>
+    </select>
+
+    <update id="updateContent">
+        update Suplier.dbo.ZSK_Article set zal_Content = #{content} where WorkFlowGUID = #{workFlowGUID}
+    </update>
+
+
+    <update id="updateSynchronizeStatus">
+        update contract_middle set is_synchronize = 1
+        <where>
+            contract_id in
+            <foreach collection="middleList" item="middle" open="(" separator="," close=")">
+                #{middle.contractId}
+            </foreach>
+        </where>
+    </update>
+
+    <select id="getPathList" resultMap="dtoMap">
+        select newsImage,WorkFlowGUID from 公司新闻 where WorkFlowGUID in
+        <foreach collection="middleList" item="middle" open="(" separator="," close=")">
+            #{middle.workFlowGUID}
+        </foreach>
+    </select>
+
+    <select id="getAttchID" parameterType="java.lang.String" statementType="CALLABLE" resultMap="attechmentMap">
+        { call Suplier.dbo.CreateMainKeyEx (#{tableName}) }
+    </select>
+
+    <insert id="insertHSLAnnex" parameterType="sysAttechment">
+        insert into Suplier.dbo.S_Attechment (S_AttchID,S_AttchOwner,S_AttchName,S_AttchPath,S_AttchType,S_AttchSize,S_AttchCreatorID,S_AttchNodeID)
+        select newid(),zal_ID,#{attchName},#{attchPath},#{attchType},#{attchSize},#{attchCreatorID},#{attchNodeID} from Suplier.dbo.ZSK_Article where WorkFlowGUID = #{attchOwner}
+    </insert>
+
+
+</mapper>

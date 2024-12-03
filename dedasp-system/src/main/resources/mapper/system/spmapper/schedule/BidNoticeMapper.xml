@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.schedule.BidNoticeMapper">
+    <resultMap id="SynchronizationScheduleMap" type="contractMiddle">
+        <id column="contract_id" property="contractId" />
+        <result column="WorkFlowGUID" property="workFlowGUID" />
+        <result column="is_synchronize" property="isSynchronize"/>
+        <result column="type" property="type" />
+    </resultMap>
+
+    <resultMap id="dtoMap" type="com.dedasp.system.dto.SychnoizedDTO">
+        <result column="公示文件" property="annex"/>
+        <result column="WorkFlowGUID" property="workFlowGUID"/>
+    </resultMap>
+
+    <select id="getMiddleData" resultMap="SynchronizationScheduleMap">
+        select * from contract_middle where is_synchronize = 0 and type = 6
+    </select>
+
+    <insert id="startSynchronize">
+        insert into Suplier.dbo.ZB_ZhongBiaoGongShi(ZBS_ID,ZG_ID,ZhaoBiaoName,ZhaoBiaoCode,XiangMuName,XianMuBianHao,ZhongBiaoDanWei,KaiBiaoDate,ZhongBiaoJia,GongShiPingTai,CaiGouGongGaoFaBuRiqi,PingShenRiQi,TuiJianGongYingShang,GongShiKaiShiDate,GongShiJieShuDate,LianXiBuMen,LianXiDianHua,DanWeiMingCheng,CGDiZhi,CGLianXiRen,CGDianHua,DLDanWei,DLDiZhi,DLLianXiRen,DLDianHua,GongShiWenjian,BeiZhu,WorkFlowGUID,ChenngJiaoZhuangTai,TCYY,BiaoTi,FaBuData)
+        <foreach collection="middleList" item="middle" index="index" separator="union all">
+            select newid(),ZGID,招标名称,招标编号,项目名称,项目编号,中标单位,开标日期,中标价,公式平台,采购公告发布日期,评审日期,推荐供应商,公示开始日期,公示结束日期,联系部门,联系电话,采购单位或机构名称,采购地址,采购联系人,采购电话,代理单位或机构名称,代理地址,代理联系人,代理电话,公示文件,备注,WorkFlowGUID,成交状态,提出异议,标题,发布日期 from CRMXMKJ.dbo.中标公示主表 where WorkFlowGUID = #{middle.workFlowGUID}
+        </foreach>
+    </insert>
+
+
+    <update id="updateSynchronizeStatus">
+        update contract_middle set is_synchronize = 1
+        <where>
+            contract_id in
+            <foreach collection="middleList" item="middle" open="(" separator="," close=")">
+                #{middle.contractId}
+            </foreach>
+        </where>
+    </update>
+
+    <select id="getPathList" resultMap="dtoMap">
+        select 公示文件,WorkFlowGUID from 中标公告 where WorkFlowGUID in
+        <foreach collection="middleList" item="middle" open="(" separator="," close=")">
+            #{middle.workFlowGUID}
+        </foreach>
+    </select>
+
+    <insert id="insertHSLAnnex">
+        insert into Suplier.dbo.S_Attechment (S_AttchID,S_AttchOwner,S_AttchName,S_AttchPath,S_AttchType,S_AttchSize,S_AttchCreatorID,S_AttchNodeID)
+        <foreach collection="desPathList" item="desPath" index="index" separator="union all">
+            select newid(),ZBS_ID,#{desPath.attchName},#{desPath.attchPath},#{desPath.attchType},#{desPath.attchSize},#{desPath.attchCreatorID},#{desPath.attchNodeID} from Suplier.dbo.ZB_ZhongBiaoGongShi where WorkFlowGUID = #{desPath.attchOwner}
+        </foreach>
+    </insert>
+</mapper>

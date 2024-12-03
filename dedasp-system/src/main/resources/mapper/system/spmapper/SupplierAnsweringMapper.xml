@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SupplierAnsweringMapper">
+
+    <resultMap id="supplierAnsweringMapper" type="sysQuestions">
+        <id column="question_id" property="questionId"/>
+        <result column="tender_theme" property="tenderTheme"/>
+        <result column="questioner" property="questioner"/>
+        <result column="question_content" property="questionContent"/>
+        <result column="question_date" property="questionDate"/>
+        <association property="sysReply" javaType="sysReply" resultMap="sysReplyMapper" />
+        <collection property="annexes" ofType="sysAnnex">
+            <id column="annex_id" property="annexId"/>
+            <result column="annex_path" property="annexPath"/>
+            <result column="annex_name" property="annexName"/>
+            <result column="annex_suffix" property="annexSuffix"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="sysReplyMapper" type="sysReply">
+        <id column="reply_id" property="replyId"/>
+        <result column="replier" property="replier"/>
+        <result column="reply_content" property="replyContent"/>
+        <result column="reply_state" property="replyState"/>
+        <result column="reply_date" property="replyDate"/>
+    </resultMap>
+
+    <!--添加问题-->
+    <insert id="addQuestion" useGeneratedKeys="true" keyProperty="questionId">
+        insert into sys_questions(tender_theme,questioner,question_content,question_date)
+        values(#{tenderTheme},#{questioner},#{questionContent},#{questionDate})
+    </insert>
+
+    <delete id="delQuestionsByIds">
+        delete from sys_questions where question_id in
+        <foreach collection="questionsIds" item="questionId" open="(" separator="," close=")">
+            #{questionId}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.AnsweringMapper">
+    <resultMap id="answeringMapper" type="sysQuestions">
+        <id column="question_id" property="questionId"/>
+        <result column="tender_theme" property="tenderTheme"/>
+        <result column="questioner" property="questioner"/>
+        <result column="question_content" property="questionContent"/>
+        <result column="question_date" property="questionDate"/>
+        <association property="sysReply" javaType="sysReply" resultMap="sysReplyMapper" />
+        <collection property="annexes" ofType="sysAnnex">
+            <id column="annex_id" property="annexId"/>
+            <result column="annex_path" property="annexPath"/>
+            <result column="annex_name" property="annexName"/>
+            <result column="annex_suffix" property="annexSuffix"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="sysReplyMapper" type="sysReply">
+        <id column="reply_id" property="replyId"/>
+        <result column="replier" property="replier"/>
+        <result column="reply_content" property="replyContent"/>
+        <result column="reply_state" property="replyState"/>
+        <result column="reply_date" property="replyDate"/>
+    </resultMap>
+
+    <!--初始化表格-->
+    <select id="getList" resultType="com.dedasp.system.domain.spdomain.SysQuestions" resultMap="answeringMapper">
+        select q.question_id, q.tender_theme, q.questioner, q.question_content, q.question_date,
+        a.annex_id,a.annex_path,a.annex_name,a.annex_suffix,r.reply_id,r.replier,r.reply_content,r.reply_state,r.reply_date
+        from sys_questions q
+        left join sys_question_annex qa
+        on q.question_id = qa.question_id
+        left join sys_annex a
+        on qa.annex_id = a.annex_id
+        left join sys_question_reply qr
+        on qr.question_id = q.question_id
+        left join sys_reply r
+        on qr.reply_id = r.reply_id
+    </select>
+
+    <!--回答问题-->
+    <insert id="insertReply" useGeneratedKeys="true" keyProperty="replyId">
+        insert into sys_reply(replier,reply_content,reply_state,reply_date)
+        values (#{sysReply.replier},#{sysReply.replyContent},1,#{sysReply.replyDate})
+    </insert>
+    <update id="updateReply">
+        update sys_reply set reply_content = #{sysReply.replyContent},reply_date = #{sysReply.replyDate}
+        where reply_id = #{sysReply.replyId}
+    </update>
+    <delete id="delReplyByReplyId">
+        delete from sys_reply where reply_id in
+        <foreach collection="replyIds" item="replyId" open="(" separator="," close=")">
+            #{replyId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysUserSupplierManagerMapper">
+    <resultMap id="sysUserSupplierManagerMap" type="sysUserSupplierSmanager">
+        <result column="user_id" property="userId"/>
+        <result column="supplier_number" property="supplierNumber"/>
+    </resultMap>
+
+    <!--添加投标跟供应商联系-->
+
+</mapper>

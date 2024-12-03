@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysTenderDetailMapper">
+    <resultMap id="sysTenderDetailMapper" type="sysTenderDetail">
+        <id column="id" property="tenderDetailId"/>
+        <result column="资源名称" property="资源名称"/>
+        <result column="单位" property="单位"/>
+        <result column="规格型号" property="规格型号"/>
+        <result column="数量" property="数量"/>
+        <result column="工作内容" property="工作内容"/>
+        <result column="计量规则" property="计量规则"/>
+        <result column="备注" property="备注"/>
+    </resultMap>
+    <insert id="addTenderDetail" useGeneratedKeys="true" keyProperty="tenderDetailId">
+        insert into 招标明细表(资源名称,单位,规格型号,数量,工作内容,计量规则,备注,UserGuid,AddDate,UpdateUserGuid,UpdateDate)
+        values (#{资源名称},#{单位},#{规格型号},#{数量},#{工作内容},#{计量规则},#{备注},'00000000-0000-0000-0000-000000000000',GETDATE(),'00000000-0000-0000-0000-000000000000',GETDATE())
+    </insert>
+
+
+</mapper>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SynchronizationScheduleMapper">
+    <resultMap id="SynchronizationScheduleMap" type="contractMiddle">
+        <id column="contract_id" property="contractId" />
+        <result column="WorkFlowGUID" property="workFlowGUID" />
+        <result column="is_synchronize" property="isSynchronize"/>
+        <result column="type" property="type" />
+    </resultMap>
+
+    <resultMap id="dtoMap" type="com.dedasp.system.dto.SychnoizedDTO">
+        <result column="结算通知单" property="annex"/>
+        <result column="WorkFlowGUID" property="workFlowGUID"/>
+    </resultMap>
+
+    <select id="getMiddleData" resultMap="SynchronizationScheduleMap">
+        select * from contract_middle where is_synchronize = 0 and type = 1
+    </select>
+
+    <!--同步数据-->
+    <insert id="startSynchronize">
+        INSERT INTO Suplier.dbo.project_contract_billing(
+        PCB_ID, WorkFlowGUID, supplier_name, supplier_code, project_name,
+        contract_name, contract_code, no_tax_amount, remark, a_supplied_material,
+        machinery_cost, reward_jin, other_expense, YJKKHJ, base_reward_amount,
+        quality_guarantee_fund, ZSQTFY, ZSKKHJ, bill_notice, GZJSS, tax_amount,
+        SQJine, no_tax_SQJine, BQJine, no_tax_BQJine, BQEJine, no_tax_BQEJine,
+        Tax, type, settlement_date, 流程进度
+        )
+        <foreach collection="middleList" item="middle" index="index" separator="union all">
+            SELECT
+            NEWID(),
+            WorkFlowGUID,
+            供应商名称,
+            供应商编码,
+            项目名称,
+            合同名称,
+            合同编号,
+            不含税金额,
+            备注,
+            甲供材料,
+            机械费,
+            奖罚金,
+            其他费用,
+            永久扣款合计,
+            奖罚基金,
+            质保金,
+            暂时其他费用,
+            暂时扣款合计,
+            结算通知单,
+            盖章结算书,
+            合同金额,
+            累计结算金额,
+            上期末累结金额不含税,
+            本期实际结算金额,
+            本期不含税金额,
+            本期含税累计金额,
+            本期末累计不含税金额,
+            税率,
+            1,
+            结算日期,
+            (SELECT WorkFlowStep FROM CRMXMKJ.dbo.分包结算 WHERE WorkFlowGUID = #{middle.workFlowGUID})
+            FROM
+            CRMXMKJ.dbo.分包结算主表
+            WHERE
+            WorkFlowGUID = #{middle.workFlowGUID}
+        </foreach>
+
+    </insert>
+
+
+    <update id="updateSynchronizeStatus">
+        update contract_middle set is_synchronize = 1
+        <where>
+            contract_id in
+            <foreach collection="middleList" item="middle" open="(" separator="," close=")">
+                #{middle.contractId}
+            </foreach>
+        </where>
+    </update>
+
+    <!--获取附件路径-->
+    <select id="getPathList" resultMap="dtoMap">
+        select 结算通知单,WorkFlowGUID from 分包结算主表 where WorkFlowGUID in
+        <foreach collection="middleList" item="middle" open="(" separator="," close=")">
+            #{middle.workFlowGUID}
+        </foreach>
+    </select>
+
+    <insert id="insertHSLAnnex" parameterType="sysAttechment">
+        insert into Suplier.dbo.S_Attechment (S_AttchID,S_AttchOwner,S_AttchName,S_AttchPath,S_AttchType,S_AttchSize,S_AttchCreatorID,S_AttchNodeID)
+        select newid(),PCB_ID,#{attchName},#{attchPath},#{attchType},#{attchSize},#{attchCreatorID},#{attchNodeID} from Suplier.dbo.project_contract_billing where WorkFlowGUID = #{attchOwner}
+    </insert>
+
+</mapper>

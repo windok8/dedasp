@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.schedule.TenderScheduleMapper">
+    <resultMap id="SynchronizationScheduleMap" type="contractMiddle">
+        <id column="contract_id" property="contractId" />
+        <result column="WorkFlowGUID" property="workFlowGUID" />
+        <result column="is_synchronize" property="isSynchronize"/>
+        <result column="type" property="type" />
+    </resultMap>
+
+    <resultMap id="dtoMap" type="com.dedasp.system.dto.SychnoizedDTO">
+        <result column="附件" property="annex"/>
+        <result column="WorkFlowGUID" property="workFlowGUID"/>
+    </resultMap>
+
+    <select id="getMiddleData" resultMap="SynchronizationScheduleMap">
+        select * from contract_middle where is_synchronize = 0 and type = 4
+    </select>
+
+    <insert id="startSynchronize">
+        insert into Suplier.dbo.ZhaoBiaoGongGao2(ZG_ID,WorkFlowGUID,tender_name,tender_code,tender_type,XiangMuSuoZaiDi,CaiGouRen,DaiLiJiGou,CaiGouFangShi,CaiGouXingShi,ZiGeSHenChaFangShi,PingShenFangFa,JiHuaGongQi,ZiJinLaiYuan,XiangMuGaiKuang,BaoJianHuaFen,ZiZhiZiGeYaoQiu,YeJiYaoQiu,CaiWuYaoQiu,XinYuYaoQiu,RenYuanYaoQiu,LianHeTIYaoQiu,QiTaYaoQiu,CaiGouWenJianHuoQuShiJian,CaiGouWenJianHuoQuShiJianJS,CaiGouWenJianHuoQuDIDian,CaiGouWenJianFeiYong,WenJianHuoQuYaoQiu,XiangYingWenJianDiJiaoShiJianKS,XiangYingWenJianDiJiaoDidian,DiJiaoJieZhiShijian,DiJiaoFangShi,DiJiaoDiDian,QITaShuoMing,KaiQiDate,KaiQiDIDian,KaiQiFangShi,GongGao,BuChongXinXi,CGDanWeiMingCheng,DLDanWei,CGDiZhi,DLDiZhi,CGYouBian,DLYouBian,CGLianXiRen,DLLianXiRen,CGDianHua,DLDianHua,CGChuanZhen,DLChuanZhen,tender_class,TianBaoDate)
+        <foreach collection="middleList" item="middle" index="index" separator="union all">
+            select newid(),WorkFlowGUID,招标名称,招标编号,招标分类,项目所在地,采购人,代理机构,采购方式,采购形式,资格审查方式,评审方法,计划工期,资金来源,项目概况与采购范围,包件划分,资质资格要求,业绩要求,财务要求,信誉要求,人员要求,联合体要求,其他要求,采购文件获取开始时间,采购文件获取结束时间,采购文件获取地点,采购文件费用,文件获取要求,响应文件递交开始时间,响应文件递交地点,递交截止时间,递交方式,递交地点,其他说明,开启时间,开启地点,开启方式,公告发布媒介,补充信息,采购人单位或机构名称,代理单位或机构名称,采购人地址,代理地址,采购人邮编,代理邮编,采购联系人,代理联系人,采购人电话,代理电话,采购传真,代理传真,招标分类,GETDATE() from CRMXMKJ.dbo.招标公告发布主表 where WorkFlowGUID = #{middle.workFlowGUID}
+        </foreach>
+    </insert>
+
+
+    <update id="updateSynchronizeStatus">
+        update contract_middle set is_synchronize = 1
+        <where>
+            contract_id in
+            <foreach collection="middleList" item="middle" open="(" separator="," close=")">
+                #{middle.contractId}
+            </foreach>
+        </where>
+    </update>
+
+    <!--获取附件路径-->
+    <select id="getPathList" resultMap="dtoMap">
+        select 附件,WorkFlowGUID from 招标公告发布主表 where WorkFlowGUID in
+        <foreach collection="middleList" item="middle" open="(" separator="," close=")">
+            #{middle.workFlowGUID}
+        </foreach>
+    </select>
+
+    <insert id="insertHSLAnnex" parameterType="sysAttechment">
+        insert into Suplier.dbo.S_Attechment (S_AttchID,S_AttchOwner,S_AttchName,S_AttchPath,S_AttchType,S_AttchSize,S_AttchCreatorID,S_AttchNodeID)
+        <foreach collection="desPathList" item="desPath" index="index" separator="union all">
+            select newid(),ZG_ID,#{desPath.attchName},#{desPath.attchPath},#{desPath.attchType},#{desPath.attchSize},#{desPath.attchCreatorID},#{desPath.attchNodeID} from Suplier.dbo.ZhaoBiaoGongGao2 where WorkFlowGUID = #{desPath.attchOwner}
+        </foreach>
+    </insert>
+
+    <insert id="resveralTenderSchedule">
+        insert into 招标公告发布(招标名称,招标编号,招标分类,资金来源,项目所在地,采购人,代理机构,采购方式,采购形式,资格审查方式,评审方法,计划工期,项目概况与采购范围,
+            包件划分,资质资格要求,业绩要求,财务要求,信誉要求,人员要求,联合体要求,其他要求,采购文件获取开始时间,采购文件获取结束时间,采购文件获取地点,采购文件费用,
+            文件获取要求,响应文件递交开始时间,响应文件递交地点,递交截止时间,递交方式,递交地点,其他说明,开启时间,开启地点,开启方式,公告发布媒介,补充信息,
+            采购人单位或机构名称,采购人地址,采购人邮编,采购联系人,采购人电话,采购传真,代理单位或机构名称,代理地址,代理邮编,代理联系人,代理电话,代理传真,
+            UserGuid,AddDate,UpdateUserGuid,UpdateDate)
+            select tender_name,tender_code,tender_class,ZiJinLaiYuan,XiangMuSuoZaiDi,CaiGouRen,DaiLiJiGou,CaiGouFangShi,CaiGouXingShi,
+            ZiGeSHenChaFangShi,PingShenFangFa,JiHuaGongQi,XiangMuGaiKuang,BaoJianHuaFen,ZiZhiZiGeYaoQiu,YeJiYaoQiu,CaiWuYaoQiu,XinYuYaoQiu,
+            RenYuanYaoQiu,LianHeTIYaoQiu,QiTaYaoQiu,CaiGouWenJianHuoQuShiJian,CaiGouWenJianHuoQuShiJianJS,CaiGouWenJianHuoQuDIDian,
+            CaiGouWenJianFeiYong,WenJianHuoQuYaoQiu,XiangYingWenJianDiJiaoShiJianKS,XiangYingWenJianDiJiaoDidian,DiJiaoJieZhiShijian,
+            DiJiaoFangShi,DiJiaoDiDian,QITaShuoMing,KaiQiDate,KaiQiDIDian,KaiQiFangShi,GongGao,BuChongXinXi,CGDanWeiMingCheng,
+            CGDiZhi,CGYouBian,CGLianXiRen,CGDianHua,CGChuanZhen,DLDanWei,DLDiZhi,DLYouBian,DLLianXiRen,DLDianHua,DLChuanZhen,
+            '00000000-0000-0000-0000-000000000000',GETDATE(),'00000000-0000-0000-0000-000000000000',GETDATE()
+        from
+            Suplier.dbo.ZhaoBiaoGongGao2 zbgg
+        where not exists(
+            select *
+            from 招标公告发布 fb
+            where fb.招标编号 = zbgg.tender_code
+        )
+    </insert>
+</mapper>

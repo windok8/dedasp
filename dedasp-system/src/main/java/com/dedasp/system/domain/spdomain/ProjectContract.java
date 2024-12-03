@@ -1,0 +1,96 @@
+package com.dedasp.system.domain.spdomain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProjectContract {
+    private String PCB_ID;
+    private String WorkFlowGUID;
+    private String supplier_name;
+    private String supplier_code;
+    private String project_name;
+    private String project_code;
+    private String contract_name;
+    private String contract_code;
+    private BigDecimal contract_money;
+    private String contract_money_capital;
+    private BigDecimal no_tax_amount;
+    private BigDecimal tax;
+    private BigDecimal BQMLJBHSJE;
+    private BigDecimal BQHSLJJE;
+    private BigDecimal settle_account_money_sum;
+    private BigDecimal LJYFKJE;
+    private BigDecimal LJYKPBHBQ;
+    private String settle_account_type;
+    private LocalDateTime settle_account_date;
+    private String is_middle_periods;
+    private BigDecimal periods_number;
+    private BigDecimal BenQiShiJiJieSuanJinE;
+    private String BenQiShiJiJieSuanJinEDaXie;
+    private BigDecimal BenQiBuHanShuiJinE;
+    private BigDecimal SQMLJJEBHS;
+    private String account;
+    private String open_bank;
+    private String GongChengKeZhang;
+    private String remark;
+    private String annex;
+    private BigDecimal a_supplied_material;
+    private BigDecimal machinery_cost;
+    private BigDecimal reward_jin;
+    private BigDecimal other_expense;
+    private BigDecimal YJKKHJ;
+    private BigDecimal SQMLJJGCL;
+    private BigDecimal SQMLJJXF;
+    private BigDecimal SQMLJJFJ;
+    private BigDecimal SQMLJQTFY;
+    private BigDecimal SQMLJYJKKHJ;
+    private BigDecimal base_reward_amount;
+    private BigDecimal quality_guarantee_fund;
+    private BigDecimal ZSQTFY;
+    private BigDecimal ZSKKHJ;
+    private BigDecimal SQMLJZKJFJJ;
+    private BigDecimal SQMLJZKZBJ;
+    private BigDecimal SQMLJZKQTFY;
+    private BigDecimal SQMLJZKHJ;
+    private BigDecimal BQKKXJ;
+    private BigDecimal LJKKXJ;
+    private BigDecimal reward_amount;
+    private String settle_account_person;
+    private String teller;
+    private String head_of_department;
+    private String deputy_project_manager;
+    private String finance_supervisor;
+    private String year;
+    private String month;
+    private BigDecimal settle_account_money;
+    private String settle_account_money_capital;
+    private BigDecimal settle_account_difference;
+    private BigDecimal MinGongGongZi;
+    private BigDecimal LJYKPHBQ;
+    private String FPSMJ;
+    private BigDecimal BCKPJE;
+    private BigDecimal HBQJSJE;
+    private String GZJSS;
+    private BigDecimal HBQYKP;
+    private BigDecimal cost_of_materials;
+    private BigDecimal ZhiShangQiMoLeiJiJieSuanJinE;
+    private BigDecimal ZhiBenQiMoLeiJiJieSuanJinE;
+    private BigDecimal tax_money;
+    private BigDecimal performance_bond;
+    private BigDecimal contract_no_tax_amount;
+    private String AnHuanKeZhang;
+    private String JiTongKeZhang;
+    private String JiLiaoKeZhang;
+    private String bill_sum;
+    private String select_job_order;
+    private String job_order_ID;
+    private BigDecimal tax_amount;
+    private BigDecimal settle_account_tax;
+}

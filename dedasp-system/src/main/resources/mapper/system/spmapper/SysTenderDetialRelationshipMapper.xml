@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysTenderDetailRelationshipMapper">
+    <resultMap id="sysTenderDetailRelationMap" type="sysTenderDetailRelationship">
+        <result column="tenderNumber" property="tenderNumber"/>
+        <result column="tender_detail_id" property="tenderDetailId"/>
+    </resultMap>
+    <insert id="addTenderDetailRelationship">
+        insert into sys_tender_detail_relationship(tender_number,tender_detail_id)
+        values (#{tenderNumber},#{tenderDetailId})
+    </insert>
+
+</mapper>

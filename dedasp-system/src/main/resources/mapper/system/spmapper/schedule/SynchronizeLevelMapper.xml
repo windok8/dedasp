@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.schedule.SynchronizeLevelMapper">
+
+    <update id="updateLevel">
+        update Suplier.dbo.GY_GongYingShangKu
+        set GY_GongYingShangDengJi = gl.SupplierGrade
+        from Suplier.dbo.GY_GongYingShangKu gysk
+        join CRMXMKJ.dbo.供应商管理 gl
+        on gysk.GY_GongYIngShangBIanMa = gl.供应商编码
+    </update>
+</mapper>

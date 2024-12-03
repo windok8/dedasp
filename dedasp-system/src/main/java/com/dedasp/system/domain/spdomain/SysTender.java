@@ -1,0 +1,137 @@
+package com.dedasp.system.domain.spdomain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class SysTender {
+    private String ZGID;
+    private String tenderName;
+    private String tenderCode;
+    private String projectName;
+    private String projectCode;
+    private String tenderType;
+    private BigDecimal tenderLimitPrice;
+    private LocalDateTime enlistsStart;
+    private LocalDateTime enlistsEnd;
+    private String tenderClass;
+    private String enlistsType;
+    private String tenderUnit;
+    private String tenderContact;
+    private String contactPhone;
+    private String tenderProjectDescription;
+    /*招标明细*/
+    private List<SysTenderDetail> sysTenderDetails;
+    private String xiangMuSuoZaiDi;
+    private String caiGouRen;
+    private String daiLiJiGou;
+    private String caiGouFangShi;
+    private String caiGouXingShi;
+    private String ziGeSHenChaFangShi;
+    private String pingShenFangFa;
+    private String jiHuaGongQi;
+    private String ziJinLaiYuan;
+    private String xiangMuGaiKuang;
+    private String baoJianHuaFen;
+    private String gongYingShangZiGeYaoQiu;
+    private String baoJianZiGeYaoQiu;
+    private String ziZhiZiGeYaoQiu;
+    private String yeJiYaoQiu;
+    private String caiWuYaoQiu;
+    private String xinYuYaoQiu;
+    private String renYuanYaoQiu;
+    private String lianHeTIYaoQiu;
+    private String qiTaYaoQiu;
+    private String caiGouWenJianHuoQu;
+    private LocalDateTime caiGouWenJianHuoQuShiJian;
+    private LocalDateTime caiGouWenJianHuoQuShiJianJS;
+    private String caiGouWenJianHuoQuDIDian;
+    private String caiGouWenJianFeiYong;
+    private String wenJianHuoQuYaoQiu;
+    private String xiangYingWenJianDeDiJiao;
+    private LocalDateTime xiangYingWenJianDiJiaoShiJianKS;
+    private String xiangYingWenJianDiJiaoDidian;
+    private LocalDateTime diJiaoJieZhiShijian;
+    private String diJiaoFangShi;
+    private String diJiaoDiDian;
+    private String qITaShuoMing;
+    private LocalDateTime kaiQiDate;
+    private String kaiQiDIDian;
+    private String kaiQiFangShi;
+    private String gongGao;
+    private String buChongXinXi;
+    private String procurementDanWeiMingCheng;
+    private String procurementDiZhi;
+    private String procurementYouBian;
+    private String procurementLianXiRen;
+    private String procurementDianHua;
+    private String procurementChuanZhen;
+    private String proxyDanWei;
+    private String proxyDiZhi;
+    private String proxyYouBian;
+    private String proxyLianXiRen;
+    private String proxyDianHua;
+    private String proxyChuanZhen;
+    private String tianBaoRen;
+    private String tianBaoDate;
+
+    public SysTender(String xiangMuSuoZaiDi, String caiGouRen, String daiLiJiGou, String caiGouFangShi, String caiGouXingShi, String ziGeSHenChaFangShi, String pingShenFangFa, String jiHuaGongQi, String ziJinLaiYuan, String xiangMuGaiKuang, String baoJianHuaFen, String gongYingShangZiGeYaoQiu, String baoJianZiGeYaoQiu, String ziZhiZiGeYaoQiu, String yeJiYaoQiu, String caiWuYaoQiu, String xinYuYaoQiu, String renYuanYaoQiu, String lianHeTIYaoQiu, String qiTaYaoQiu, String caiGouWenJianHuoQu, LocalDateTime caiGouWenJianHuoQuShiJian, LocalDateTime caiGouWenJianHuoQuShiJianJS, String caiGouWenJianHuoQuDIDian, String caiGouWenJianFeiYong, String wenJianHuoQuYaoQiu, String xiangYingWenJianDeDiJiao, LocalDateTime xiangYingWenJianDiJiaoShiJianKS, String xiangYingWenJianDiJiaoDidian, LocalDateTime diJiaoJieZhiShijian, String diJiaoFangShi, String diJiaoDiDian, String qITaShuoMing, LocalDateTime kaiQiDate, String kaiQiDIDian, String kaiQiFangShi, String gongGao, String buChongXinXi, String procurementDanWeiMingCheng, String procurementDiZhi, String procurementYouBian, String procurementLianXiRen, String procurementDianHua, String procurementChuanZhen, String proxyDanWei, String proxyDiZhi, String proxyYouBian, String proxyLianXiRen, String proxyDianHua, String proxyChuanZhen) {
+        this.xiangMuSuoZaiDi = xiangMuSuoZaiDi;
+        this.caiGouRen = caiGouRen;
+        this.daiLiJiGou = daiLiJiGou;
+        this.caiGouFangShi = caiGouFangShi;
+        this.caiGouXingShi = caiGouXingShi;
+        this.ziGeSHenChaFangShi = ziGeSHenChaFangShi;
+        this.pingShenFangFa = pingShenFangFa;
+        this.jiHuaGongQi = jiHuaGongQi;
+        this.ziJinLaiYuan = ziJinLaiYuan;
+        this.xiangMuGaiKuang = xiangMuGaiKuang;
+        this.baoJianHuaFen = baoJianHuaFen;
+        this.gongYingShangZiGeYaoQiu = gongYingShangZiGeYaoQiu;
+        this.baoJianZiGeYaoQiu = baoJianZiGeYaoQiu;
+        this.ziZhiZiGeYaoQiu = ziZhiZiGeYaoQiu;
+        this.yeJiYaoQiu = yeJiYaoQiu;
+        this.caiWuYaoQiu = caiWuYaoQiu;
+        this.xinYuYaoQiu = xinYuYaoQiu;
+        this.renYuanYaoQiu = renYuanYaoQiu;
+        this.lianHeTIYaoQiu = lianHeTIYaoQiu;
+        this.qiTaYaoQiu = qiTaYaoQiu;
+        this.caiGouWenJianHuoQu = caiGouWenJianHuoQu;
+        this.caiGouWenJianHuoQuShiJian = caiGouWenJianHuoQuShiJian;
+        this.caiGouWenJianHuoQuShiJianJS = caiGouWenJianHuoQuShiJianJS;
+        this.caiGouWenJianHuoQuDIDian = caiGouWenJianHuoQuDIDian;
+        this.caiGouWenJianFeiYong = caiGouWenJianFeiYong;
+        this.wenJianHuoQuYaoQiu = wenJianHuoQuYaoQiu;
+        this.xiangYingWenJianDeDiJiao = xiangYingWenJianDeDiJiao;
+        this.xiangYingWenJianDiJiaoShiJianKS = xiangYingWenJianDiJiaoShiJianKS;
+        this.xiangYingWenJianDiJiaoDidian = xiangYingWenJianDiJiaoDidian;
+        this.diJiaoJieZhiShijian = diJiaoJieZhiShijian;
+        this.diJiaoFangShi = diJiaoFangShi;
+        this.diJiaoDiDian = diJiaoDiDian;
+        this.qITaShuoMing = qITaShuoMing;
+        this.kaiQiDate = kaiQiDate;
+        this.kaiQiDIDian = kaiQiDIDian;
+        this.kaiQiFangShi = kaiQiFangShi;
+        this.gongGao = gongGao;
+        this.buChongXinXi = buChongXinXi;
+        this.procurementDanWeiMingCheng = procurementDanWeiMingCheng;
+        this.procurementDiZhi = procurementDiZhi;
+        this.procurementYouBian = procurementYouBian;
+        this.procurementLianXiRen = procurementLianXiRen;
+        this.procurementDianHua = procurementDianHua;
+        this.procurementChuanZhen = procurementChuanZhen;
+        this.proxyDanWei = proxyDanWei;
+        this.proxyDiZhi = proxyDiZhi;
+        this.proxyYouBian = proxyYouBian;
+        this.proxyLianXiRen = proxyLianXiRen;
+        this.proxyDianHua = proxyDianHua;
+        this.proxyChuanZhen = proxyChuanZhen;
+    }
+}

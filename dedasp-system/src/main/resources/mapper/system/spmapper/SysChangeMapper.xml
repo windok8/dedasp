@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dedasp.system.mapper.spmapper.SysChangeMapper">
+    <resultMap id="sysChangeMap" type="sysChanger">
+        <id column="ZBG_ID" property="ZBGID"/>
+        <result column="ZG_ID" property="ZGID"/>
+        <result column="GongGaoZhuangTai" property="gongGaoZhuangTai"/>
+        <result column="tender_name" property="tenderName"/>
+        <result column="tender_code" property="tenderCode"/>
+        <result column="BianGengBianHao" property="bianGengBianHao"/>
+        <result column="KaiBiaoDate" property="kaiBiaoDate"/>
+        <result column="YuanGongNeiRong" property="yuanGongNeiRong"/>
+        <result column="BianGengNeiRong" property="bianGengNeiRong"/>
+        <result column="BianGengYuanYin" property="bianGengYuanYin"/>
+        <result column="CGDanWei" property="CGDanWei"/>
+        <result column="DDDanWei" property="DDDanWei"/>
+        <result column="CaiGouDiZhi" property="caiGouDiZhi"/>
+        <result column="CGYouBian" property="CGYouBian"/>
+        <result column="DDYouBian" property="DDYouBian"/>
+        <result column="DaiLiDiZhi" property="daiLiDiZhi"/>
+        <result column="CGLianXiRen" property="CGLianXiRen"/>
+        <result column="DLLianXiRen" property="DLLianXiRen"/>
+        <result column="CGDianHua" property="CGDianHua"/>
+        <result column="DLDianHua" property="DLDianHua"/>
+        <result column="CGChuanZhen" property="CGChuanZhen"/>
+        <result column="DLChuanZhen" property="DLChuanZhen"/>
+        <result column="BiaoTi" property="biaoTi"/>
+    </resultMap>
+
+    <select id="getChange" resultMap="sysChangeMap">
+        select zbbg.ZBG_ID,zbbg.ZG_ID,zbgg.tender_name,zbbg.tender_code,zbbg.KaiBiaoDate,zbbg.GongGaoZhuangTai,zbbg.GongGaoZhuangTai,
+        zbbg.BianGengBianHao,zbbg.YuanGongNeiRong,zbbg.BianGengNeiRong,zbbg.BianGengNeiRong,zbbg.BianGengYuanYin,
+        zbbg.CGDanWei,zbbg.DDDanWei,zbbg.CaiGouDiZhi,zbbg.DaiLiDiZhi,zbbg.CGLianXiRen,zbbg.DLLianXiRen,zbbg.CGDianHua,
+        zbbg.DLDianHua,zbbg.CGChuanZhen,zbbg.DLChuanZhen,
+        zbbg.CGYouBian,zbbg.DDYouBian,zbbg.BiaoTi
+        from Suplier.dbo.ZhaoBiaoBianGeng zbbg
+        left join Suplier.dbo.ZhaoBiaoGongGao2 zbgg
+        on zbbg.ZG_ID = zbgg.ZG_ID
+        where zbbg.ZG_ID = #{ZGID} and zbbg.ZBG_ID = #{ZBGID}
+    </select>
+</mapper>
